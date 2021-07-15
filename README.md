@@ -1,140 +1,89 @@
-A library that animates the native scroll value using Virtual Scroll and custom scrollbar
+A library that allows you to upload html elements to webgl and manipulate them
 
 # Instalation
 
-`npm i @emotionagency/smoothscroll`
+`npm i @emotionagency/glhtml`
 
 or
 
-`yarn add @emotionagency/smoothscroll`
+`yarn add @emotionagency/glhtml`
 
 # Usage
 
 Basic example
 ```
-import {SmoothScroll} from '@emotionagency/smoothscroll'
+at first you need to create Figure (shader program)
 
-const scroll = new SmoothScroll()
-```
+import {Figure, Scetch} from '@emotionagency/glhtml'
 
-Destroy instance
-
-```
-import {SmoothScroll} from '@emotionagency/smoothscroll'
-
-const scroll = new SmoothScroll()
-
-scroll.destroy()
-```
-
-
-## Instance options
-
-| Option                  | Type      | Default                | Description                                                                                                                                                                                                                                                                                        |
-| ----------------------- | --------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `el`                    | `object`  | `#scroll-container`             | Scroll container element.                                                                                                                                                                                                                                                                          |
-| `touchMultiplier`                  | `number`  | `3.8`             | Mutiply the touch action by this modifier to make scroll faster than finger movement (Virtual Scroll API).                                                                                                        |
-| `firefoxMultiplier`                | `number`| `40`                | Firefox on Windows needs a boost, since scrolling is very slow.|
-| `preventTouch`                | `boolean`| `true`                |  If true, automatically call e.preventDefault on touchMove.
-| `scrollbar`                | `boolean`| `true`                |  Custom scrollbar.
-| `friction`                | `number`| `0.08`                |  Factor that affects the speed and smoothness of the scroll animation.
-| `stepSize`                | `number`| `1`                |  A coefficient that affects the distance that will be scrolled at one time. The smaller the coefficient, the shorter the distance.
-| `mobile`                | `boolean`| `true`                |  If true, it will work on mobile devices too.
-| `breakpoint`                | `number`| `960`                |  If mobile is selected false, then this value indicates when the scroll will be disabled.
-
-
-## Recomended styles
-
-### Scroll Container
-
-```
-body {
-  height: 100vh;
-  overflow: hidden;
-}
-
-.e-fixed {
-  overflow: hidden;
-  overflow-x: auto;
-  .scrollbar:not(.block-scrollbar) {
-    display: none;
+class Images extends Figure {
+  constructor(scene, renderer, $el) {
+    super(scene, renderer, $el)
   }
-  #scroll-container {
-    overflow: hidden;
-    overflow-x: auto;
-  }
-}
 
-#scroll-container {
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: var(--vh);
-}
-```
-
-### Scrollbar
-
-```
-/* Hide scrollbar for Chrome, Safari and Opera */
-#scroll-container::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-#scroll-container {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-.scrollbar {
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 10000000 !important;
-  height: var(--vh);
-  width: 12px;
-  user-select: none;
-  overflow: hidden;
-  padding: 2px;
-  padding-left: 0px;
-  @media screen and (min-width: 960px)) {
-    &:hover {
-      .scrollbar__thumb {
-        width: 10px;
-        opacity: 0.7;
-        border-radius: 10px;
-        background-color: var(--accent);
-      }
+  createMaterial() {
+    const uniforms = {
+      uTexture: {type: 't', value: this.texture},
     }
+
+    const vertex = `
+      varying vec2 vUv;
+
+      void main() {
+        vUv = bgCover(size, resolution, uv);
+
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `
+
+    const fragment = `
+      varying vec2 vUv;
+      uniform sampler2D uTexture;
+
+      void main() {
+        vec4 myTexture = texture2D(uTexture, uv);
+        gl_FragColor = myTexture;
+      }
+    `
+
+    super.createMaterial({uniforms, vertex, fragment})
   }
-  &.hidden {
-    display: none;
+
+  async createMesh() {
+    this.texture = await this.uploadTexture(this.$el.dataset.src)
+    super.createMesh()
+  }
+
+  destroy() {
+    this.disposeTexture(this.texture)
+    super.destroy()
   }
 }
 
-.scrollbar__thumb {
-  width: 6px;
-  border-radius: 7px;
-  pointer-events: none;
-  height: 100px;
-  background: #6b6b6b;
-  display: block;
-  position: relative;
-  user-select: none;
-  transition: width 0.2s ease, opacity 0.3s ease, border-radius 0.3s ease,
-    background-color 0.3s ease;
-  right: 0;
-  opacity: 0;
-  float: right;
-  &.scrolling {
-    opacity: 0.7;
-  }
-  &.active {
-    width: 10px;
-    opacity: 0.7;
-    border-radius: 10px;
-    background-color: var(--accent);
-  }
-}
+Then you need to make a node
 
+const imgs = [...document.querySelectorAll('.js-gl-img')]
+
+let nodes = imgs.map((img) => ({
+  $el: img,
+  Figure: Images,
+}))
+
+Then you need to create an instance of the Sketch class and pass the nodes there
+
+new Scetch('#gl', {
+  nodes,
+})
+
+```
+
+
+
+this library is built based on OGL library: https://github.com/oframe/ogl
+
+If you need you can import all OGL modules
+```
+import {OGL} from '@emotionagency/glhtml'
+
+const scene = new OGL.Transform();
 ```
