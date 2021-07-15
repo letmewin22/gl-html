@@ -1,0 +1,27 @@
+{
+  "name": "@emotionagency/glhtml",
+  "version": "0.1.3",
+  "description": "A library that allows you to upload html elements to webgl and manipulate them",
+  "main": "src/index.js",
+  "keywords": [
+    "js",
+    "utilities",
+    "javascript",
+    "webgl",
+    "glsl",
+    "ogl"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/letmewin22/gl-html.git"
+  },
+  "author": "emotion-agency <hello@emotion-agency.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/letmewin22/gl-html/issues"
+  },
+  "homepage": "https://github.com/letmewin22/gl-html#readme",
+  "dependencies": {
+    "ogl": "0.0.73"
+  }
+}
