@@ -136,3 +136,22 @@ const scene = new OGL.Transform();
 ### If you need some functionality from ogl, you can call any method from its structure
 
 More about ogl structure: https://github.com/oframe/ogl
+
+## You can add or remove Figures from the Sketch by id
+
+```
+import {Figure, Scetch} from '@emotionagency/glhtml'
+
+const scetch = new Scetch('#gl')
+
+const imgs = [...document.querySelectorAll('.js-gl-img')]
+
+let nodes = imgs.map((img) => ({
+  $el: img,
+  Figure: Images,
+}))
+
+scetch.addFigures(nodes)
+scetch.removeFigure([id]) // all figures has a unic id
+
+```
