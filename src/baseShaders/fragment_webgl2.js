@@ -1,4 +1,4 @@
-#version 300 es
+export default `#version 300 es
 precision highp float;
 #define varying in
 #define texture2D texture
@@ -9,4 +9,4 @@ out vec4 FragColor;
 
 vec3 fromRGB(vec3 rgb) {
   return rgb / 255.;
-}
+}`

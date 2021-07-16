@@ -1,9 +1,13 @@
 {
   "name": "@emotionagency/glhtml",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A library that allows you to upload html elements to webgl and manipulate them",
-  "main": "build/app.js",
-  "source": "src/index.js",
+  "type": "module",
+  "main": "./build/app.js",
+  "source": "./src/index.js",
+  "exports": "./build/app.modern.js",
+  "module": "./build/app.module.js",
+  "unpkg": "./build/app.umd.js",
   "keywords": [
     "js",
     "utilities",
@@ -13,7 +17,8 @@
     "ogl"
   ],
   "scripts": {
-    "build": "webpack"
+    "build": "microbundle --external none",
+    "dev": "microbundle watch --external none"
   },
   "repository": {
     "type": "git",
@@ -26,18 +31,7 @@
   },
   "homepage": "https://github.com/letmewin22/gl-html#readme",
   "devDependencies": {
-    "@babel/core": "^7.10.2",
-    "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "@babel/plugin-proposal-private-methods": "^7.10.4",
-    "@babel/plugin-transform-runtime": "^7.10.4",
-    "@babel/preset-env": "^7.10.2",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.1.0",
-    "webpack": "^5.44.0",
-    "webpack-cli": "^4.7.2",
-    "webpack-dev-middleware": "^3.7.2",
-    "webpack-glsl-loader": "^1.0.1"
+    "microbundle": "^0.13.3"
   },
   "dependencies": {
     "ogl": "0.0.73",

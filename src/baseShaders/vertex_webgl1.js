@@ -1,4 +1,4 @@
-#define PI 3.14159265359
+export default `#define PI 3.14159265359
 
 precision highp float;
 
@@ -8,4 +8,4 @@ uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 
 uniform vec2 size;
-uniform vec2 resolution;
+uniform vec2 resolution;`

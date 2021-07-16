@@ -3,11 +3,11 @@ import {TextureLoader} from './TextureLoader/TextureLoader'
 import {generateID} from './utils/generateID'
 
 // shaders
-import baseFragmentOld from './baseShaders/fragment_webgl1.glsl'
-import vertexShaderOld from './baseShaders/vertex_webgl1.glsl'
-import baseFragmentNew from './baseShaders/fragment_webgl2.glsl'
-import vertexShaderNew from './baseShaders/vertex_webgl2.glsl'
-import bgCover from './baseShaders/bgCover.glsl'
+import baseFragmentOld from './baseShaders/fragment_webgl1'
+import vertexShaderOld from './baseShaders/vertex_webgl1'
+import baseFragmentNew from './baseShaders/fragment_webgl2'
+import vertexShaderNew from './baseShaders/vertex_webgl2'
+import bgCover from './baseShaders/bgCover'
 
 export default class BaseFigure {
   sizes = new Vec2(0, 0)
@@ -31,19 +31,19 @@ export default class BaseFigure {
   }
 
   _setupShaders() {
-    this.vertexShader = this.renderer.isWebgl2 ?
-      vertexShaderNew :
-      vertexShaderOld
+    this.vertexShader = this.renderer.isWebgl2
+      ? vertexShaderNew
+      : vertexShaderOld
 
     this.baseVertex = bgCover + '\n' + this.vertexShader
 
-    this.baseFragment = this.renderer.isWebgl2 ?
-      baseFragmentNew :
-      baseFragmentOld
+    this.baseFragment = this.renderer.isWebgl2
+      ? baseFragmentNew
+      : baseFragmentOld
   }
 
   async uploadTexture(src) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const texture = this.loader.load(src, () => resolve(texture))
     })
   }
@@ -57,7 +57,7 @@ export default class BaseFigure {
       type: 'v2',
       value: new Vec2(
         this.getBoundingTexture.naturalWidth,
-        this.getBoundingTexture.naturalHeight,
+        this.getBoundingTexture.naturalHeight
       ),
     }
 
@@ -65,7 +65,7 @@ export default class BaseFigure {
       type: 'v2',
       value: new Vec2(
         this.getBoundingTexture.width,
-        this.getBoundingTexture.height,
+        this.getBoundingTexture.height
       ),
     }
 

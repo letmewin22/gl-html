@@ -1,4 +1,4 @@
-uniform vec2 cover;
+export default `uniform vec2 cover;
 
 vec2 bgCover(vec2 planeSize, vec2 imageSize, vec2 uv) {
 
@@ -15,4 +15,4 @@ vec2 bgCover(vec2 planeSize, vec2 imageSize, vec2 uv) {
 
   uv += cover;
   return uv;
-}
+}`
