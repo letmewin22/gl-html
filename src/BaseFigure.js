@@ -52,6 +52,15 @@ export default class BaseFigure {
     this.gl.deleteTexture(texture.texture)
   }
 
+  createGeometry({widthSegments, heightSegments}) {
+    this.geometry = new Plane(this.renderer.gl, {
+      width: 1,
+      height: 1,
+      widthSegments: widthSegments ?? 128,
+      heightSegments: heightSegments ?? 128,
+    })
+  }
+
   createMaterial(opts = {}) {
     const resolution = {
       type: 'v2',
@@ -92,26 +101,23 @@ export default class BaseFigure {
 
     vertex = this.renderer.isWebgl2 ? '#version 300 es' + '\n' + vertex : vertex
 
-    this.geometry = new Plane(this.renderer.gl, {
-      width: 1,
-      height: 1,
-      widthSegments: 128,
-      heightSegments: 128,
-    })
-
-    this.material = new Program(this.renderer.gl, {
+    const options = {
       vertex,
       fragment,
       uniforms,
-      transparent: true,
-      depthTest: false,
-      depthWrite: false,
-    })
+      transparent: opts.transparent ?? true,
+      cullFace: opts.cullFace ?? null,
+      depthTest: opts.depthTest ?? false,
+      depthWrite: opts.depthWrite ?? false,
+    }
+
+    this.material = new Program(this.renderer.gl, options)
   }
 
   async createMesh() {
     this.$el.classList.add('js-hidden')
 
+    this.createGeometry()
     await this.createMaterial()
 
     this.setSizes()

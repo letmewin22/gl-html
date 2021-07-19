@@ -90,6 +90,7 @@ import {OGL} from '@emotionagency/glhtml'
 const scene = new OGL.Transform();
 ```
 
+
 ## Nodes options
 | Option | Type         | Default                                       | Description                                                                                  |
 |--------|--------------|-----------------------------------------------|----------------------------------------------------------------------------------------------|
@@ -121,21 +122,26 @@ const scene = new OGL.Transform();
 |----------------|------------------------------------------------------------------------------------------------------------------------|
 | uploadTexture  | An async method that allows you to load textures                                                                       |
 | disposeTexture | Method that allows you to destroy the texture                                                                          |
-| createMaterial | Method for creating material and geometry. You need to inherit and throw uniforms, fragment and vertex shaders into it |
+| createMaterial | Method for creating material . You need to inherit and throw uniforms, fragment and vertex shaders into it |
+| createGeometry | Method for creating geometry. |
 | createMesh     | Method for creating a mesh. You can inherit and load textures here, for example                                        |
 | update         | Method that is updated by ticker. Here you can add your animations                                                     |
 | destroy        | Allows you to safely destroy an instance, avoiding memory leaks                                            
+
 
 ## Structure
 
 - Figure.js — Shader program
 - Scetch.js — Launches functionality
 - DefaultScetch.js — If the functionality of the library is not enough for you, you can use the base class and write your own functionality
-— OGL — all methods from ogl library
+- TextureLoader.js — If you need to load a texture outside the Figure class. Required parameter {gl: /* renderer.gl */}
+— And all methods from ogl library
+
 
 ### If you need some functionality from ogl, you can call any method from its structure
 
 More about ogl structure: https://github.com/oframe/ogl
+
 
 ## You can add or remove Figures from the Sketch by id
 
