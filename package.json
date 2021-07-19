@@ -1,6 +1,6 @@
 {
   "name": "@emotionagency/glhtml",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library that allows you to upload html elements to webgl and manipulate them",
   "type": "module",
   "main": "./build/app.js",

@@ -52,12 +52,12 @@ export default class BaseFigure {
     this.gl.deleteTexture(texture.texture)
   }
 
-  createGeometry({widthSegments, heightSegments}) {
+  createGeometry(opts = {}) {
     this.geometry = new Plane(this.renderer.gl, {
       width: 1,
       height: 1,
-      widthSegments: widthSegments ?? 128,
-      heightSegments: heightSegments ?? 128,
+      widthSegments: opts.widthSegments ?? 128,
+      heightSegments: opts.heightSegments ?? 128,
     })
   }
 
